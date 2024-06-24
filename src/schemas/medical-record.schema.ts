@@ -1,45 +1,36 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
-export type MedicalRecordDocument = HydratedDocument<MedicalRecord>;
+export type MedicalRecordDocument = MedicalRecord & Document;
 
-@Schema()
+@Schema({ timestamps: true })
 export class MedicalRecord {
-  @Prop({ required: true })
-  patientName: string;
-
-  @Prop({ required: true })
-  patientAge: number;
-
-  @Prop({ required: true })
-  patientGender: string;
-
-  @Prop({ required: true })
-  symptoms: string[];
-
-  @Prop({ required: true })
-  diagnosis: string;
+  @Prop()
+  consultationDate: Date;
 
   @Prop()
-  treatment: string;
+  anamnese?: string;
 
   @Prop()
-  medications: string[];
+  problemList?: string;
 
   @Prop()
-  allergies: string[];
+  lifestyleAndOtherInfo?: string;
 
   @Prop()
-  medicalHistory: string[];
+  physicalExam?: string;
 
   @Prop()
-  surgeries: string[];
-
-  @Prop({ default: Date.now })
-  createdAt: Date;
+  diagnosticConclusion?: string;
 
   @Prop()
-  updatedAt: Date;
+  medicalCertificate?: string;
+
+  @Prop()
+  prescriptions?: string;
+
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  user: Types.ObjectId;
 }
 
 export const MedicalRecordSchema = SchemaFactory.createForClass(MedicalRecord);

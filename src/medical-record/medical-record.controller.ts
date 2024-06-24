@@ -2,15 +2,12 @@ import { Controller, Get, Post, Put, Delete, Param, Body, NotFoundException } fr
 import { MedicalRecordService } from './medical-record.service';
 import { CreateMedicalRecordDto } from './dto/create-medical-record.dto';
 import { UpdateMedicalRecordDto } from './dto/update-medical-record.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('medicalRecord')
+@ApiTags('medicalRecord')
 export class MedicalRecordController {
   constructor(private readonly medicalRecordService: MedicalRecordService) {}
-
-  @Post()
-  async create(@Body() createMedicalRecordDto: CreateMedicalRecordDto) {
-    return this.medicalRecordService.create(createMedicalRecordDto);
-  }
 
   @Get()
   async findAll() {
@@ -24,6 +21,11 @@ export class MedicalRecordController {
       throw new NotFoundException('Medical record not found');
     }
     return medicalRecord;
+  }
+
+  @Post()
+  async create(@Body() createMedicalRecordDto: CreateMedicalRecordDto) {
+    return this.medicalRecordService.create(createMedicalRecordDto);
   }
 
   @Put(':id')
@@ -41,6 +43,6 @@ export class MedicalRecordController {
     if (!deleted) {
       throw new NotFoundException('Medical record not found');
     }
-    return { message: 'Medical record deleted successfully' };
+    return;
   }
 }

@@ -7,6 +7,7 @@ const port = process.env.PORT || 3000;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
@@ -20,6 +21,13 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document, {
     jsonDocumentUrl: 'swagger',
   });
+
+  // const medicalRecordService = app.get<MedicalRecordService>(MedicalRecordService);
+  // const medicals = await medicalRecordService.findAll();
+
+  // const userService = app.get<UserService>(UserService);
+  // const users = await userService.findAll();
+  // users[0].medicalRecords[0].anamnese;
 
   await app.listen(port);
 }
